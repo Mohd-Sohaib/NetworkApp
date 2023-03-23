@@ -7,21 +7,11 @@
     tools:context=".MainActivity"
     android:orientation="vertical">
 
-   <ScrollView
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:padding="11dp">
-
-       <TextView
-           android:id="@+id/txt"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:textSize="25sp"
-           android:textColor="#000"
-           android:text="Demo text"
-           android:layout_marginBottom="10dp"
-           />
-
-   </ScrollView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/item_view"
+        />
 
 </LinearLayout>

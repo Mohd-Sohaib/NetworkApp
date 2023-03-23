@@ -3,6 +3,7 @@ package com.mohdsohaib.networkapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mohdsohaib.networkapp.databinding.ActivityMainBinding
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
@@ -10,6 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 const val BASE_URL = "https://jsonplaceholder.typicode.com/"
 class MainActivity : AppCompatActivity() {
 
+    lateinit var adapter: DataAdapter
     lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,17 +36,23 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call<List<Data>>, response: Response<List<Data>>) {
                 val responseBody = response.body()
 
-                val myStringBuilder = StringBuilder()
-                if (responseBody != null) {
-                    for(myData in responseBody){
-                        myStringBuilder.append(myData.id)
-                        myStringBuilder.append(". ")
-                        myStringBuilder.append(myData.title)
-                        myStringBuilder.append("\n")
-                        myStringBuilder.append("\n")
-                    }
+                if(responseBody != null){
+                     adapter = DataAdapter(this@MainActivity, responseBody)
+                     binding.recyclerviewList.layoutManager = LinearLayoutManager(this@MainActivity)
+                     binding.recyclerviewList.adapter = adapter
+
                 }
-                binding.txt.text = myStringBuilder
+//                val myStringBuilder = StringBuilder()
+//                if (responseBody != null) {
+//                    for(myData in responseBody){
+//                        myStringBuilder.append(myData.id)
+//                        myStringBuilder.append(". ")
+//                        myStringBuilder.append(myData.title)
+//                        myStringBuilder.append("\n")
+//                        myStringBuilder.append("\n")
+//                    }
+//                }
+//                binding.txt.text = myStringBuilder
             }
             override fun onFailure(call: Call<List<Data>>, t: Throwable) {
                Log.d("TAG","onFailure" + t.message)
